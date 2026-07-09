@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, inject, signal, OnInit, input } from '@angular/core'
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms'
 import { Router, ActivatedRoute } from '@angular/router'
 import { Veiculo as VeiculoService } from '../../services/veiculo'
@@ -11,7 +11,7 @@ import { Auth } from '../../services/auth'
   styleUrl: './veiculo-form.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class VeiculoForm implements OnInit {
+export class VeiculoForm  {
   private veiculoService = inject(VeiculoService)
   private auth = inject(Auth)
   private router = inject(Router)
@@ -21,7 +21,7 @@ export class VeiculoForm implements OnInit {
   protected readonly salvando = signal(false)
   protected readonly editando = signal(false)
 
-  private veiculoId: string | null = null
+  id = input<string>()
 
   protected readonly form = new FormGroup({
     placa: new FormControl('', [Validators.required]),
@@ -31,15 +31,6 @@ export class VeiculoForm implements OnInit {
     modelo: new FormControl('', [Validators.required]),
     ano: new FormControl<number | null>(null, [Validators.required])
   })
-
-  ngOnInit(): void {
-    this.veiculoId = this.route.snapshot.paramMap.get('id')
-
-    if (this.veiculoId) {
-      this.editando.set(true)
-      this.carregarVeiculo(this.veiculoId)
-    }
-  }
 
   private carregarVeiculo(id: string): void {
     this.veiculoService.getById(id).subscribe({
@@ -60,8 +51,8 @@ export class VeiculoForm implements OnInit {
 
     const dados = this.form.value
 
-    if (this.editando() && this.veiculoId) {
-      this.atualizarVeiculo(this.veiculoId, dados)
+    if (this.editando() && this.id()) {
+      this.atualizarVeiculo(this.id(), dados)
     } else {
       await this.criarVeiculo(dados)
     }
