@@ -1,0 +1,23 @@
+<form [formGroup]="form" (ngSubmit)="entrar()">
+  <div>
+    <label for="email">E-mail</label>
+    <input id="email" type="email" formControlName="email" />
+    @if (form.get('email')?.invalid && form.get('email')?.touched) {
+      <span>E-mail inválido</span>
+    }
+  </div>
+
+  <div>
+    <label for="senha">Senha</label>
+    <input id="senha" type="password" formControlName="senha" />
+    @if (form.get('senha')?.invalid && form.get('senha')?.touched) {
+      <span>Senha deve ter no mínimo 6 caracteres</span>
+    }
+  </div>
+
+  @if (erro()) {
+    <p>{{ erro() }}</p>
+  }
+
+  <button type="submit" [disabled]="form.invalid">Entrar</button>s
+</form>
