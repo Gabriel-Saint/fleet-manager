@@ -40,6 +40,10 @@ export class Auth {
     return data.session?.access_token ?? null
   }
 
+  async getSession() {
+    return await this.supabase.client.auth.getSession()
+  }
+
   isLoggedIn(): boolean {
     return this.usuarioLogado()
   }
