@@ -1,0 +1,61 @@
+<h1>{{ editando() ? 'Editar Veículo' : 'Novo Veículo' }}</h1>
+
+<form [formGroup]="form" (ngSubmit)="salvar()">
+  <div>
+    <label for="placa">Placa</label>
+    <input id="placa" type="text" formControlName="placa" />
+    @if (form.get('placa')?.invalid && form.get('placa')?.touched) {
+      <span>Placa é obrigatória</span>
+    }
+  </div>
+
+  <div>
+    <label for="chassi">Chassi</label>
+    <input id="chassi" type="text" formControlName="chassi" />
+    @if (form.get('chassi')?.invalid && form.get('chassi')?.touched) {
+      <span>Chassi é obrigatório</span>
+    }
+  </div>
+
+  <div>
+    <label for="renavam">Renavam</label>
+    <input id="renavam" type="text" formControlName="renavam" />
+    @if (form.get('renavam')?.invalid && form.get('renavam')?.touched) {
+      <span>Renavam é obrigatório</span>
+    }
+  </div>
+
+  <div>
+    <label for="marca">Marca</label>
+    <input id="marca" type="text" formControlName="marca" />
+    @if (form.get('marca')?.invalid && form.get('marca')?.touched) {
+      <span>Marca é obrigatória</span>
+    }
+  </div>
+
+  <div>
+    <label for="modelo">Modelo</label>
+    <input id="modelo" type="text" formControlName="modelo" />
+    @if (form.get('modelo')?.invalid && form.get('modelo')?.touched) {
+      <span>Modelo é obrigatório</span>
+    }
+  </div>
+
+  <div>
+    <label for="ano">Ano</label>
+    <input id="ano" type="number" formControlName="ano" />
+    @if (form.get('ano')?.invalid && form.get('ano')?.touched) {
+      <span>Ano é obrigatório</span>
+    }
+  </div>
+
+  @if (erro()) {
+    <p>{{ erro() }}</p>
+  }
+
+  <button type="submit" [disabled]="form.invalid || salvando()">
+    {{ salvando() ? 'Salvando...' : 'Salvar' }}
+  </button>
+
+  <button type="button" (click)="cancelar()">Cancelar</button>
+</form>
