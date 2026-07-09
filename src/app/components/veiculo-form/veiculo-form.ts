@@ -3,6 +3,9 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
 import { Router } from '@angular/router'
 import { Veiculo as VeiculoService } from '../../services/veiculo'
 import { Auth } from '../../services/auth'
+import { placaValidator } from '../../validators/placa'
+import { chassiValidator } from '../../validators/chassi'
+import { renavamValidator } from '../../validators/renavam'
 
 @Component({
   selector: 'app-veiculo-form',
@@ -23,9 +26,9 @@ export class VeiculoForm {
   id = input<string>()
 
   protected readonly form = new FormGroup({
-    placa: new FormControl('', [Validators.required]),
-    chassi: new FormControl('', [Validators.required]),
-    renavam: new FormControl('', [Validators.required]),
+    placa: new FormControl('', [Validators.required, placaValidator]),
+    chassi: new FormControl('', [Validators.required, chassiValidator]),
+    renavam: new FormControl('', [Validators.required, renavamValidator]),
     marca: new FormControl('', [Validators.required]),
     modelo: new FormControl('', [Validators.required]),
     ano: new FormControl<number | null>(null, [Validators.required])
@@ -58,7 +61,11 @@ export class VeiculoForm {
 
     this.salvando.set(true)
 
-    const dados = this.form.value
+    const dados = {
+      ...this.form.value,
+      placa: this.form.value.placa?.toUpperCase().trim(),
+      chassi: this.form.value.chassi?.toUpperCase().trim()
+    }
     const veiculoId = this.id()
 
     if (this.editando() && veiculoId) {

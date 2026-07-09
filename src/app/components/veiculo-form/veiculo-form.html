@@ -4,24 +4,36 @@
   <div>
     <label for="placa">Placa</label>
     <input id="placa" type="text" formControlName="placa" />
-    @if (form.get('placa')?.invalid && form.get('placa')?.touched) {
-      <span>Placa é obrigatória</span>
+    @if (form.get('placa')?.touched) {
+      @if (form.get('placa')?.hasError('required')) {
+        <span>Placa é obrigatória</span>
+      } @else if (form.get('placa')?.hasError('placa')) {
+        <span>Placa inválida (ex.: ABC1D23)</span>
+      }
     }
   </div>
 
   <div>
     <label for="chassi">Chassi</label>
     <input id="chassi" type="text" formControlName="chassi" />
-    @if (form.get('chassi')?.invalid && form.get('chassi')?.touched) {
-      <span>Chassi é obrigatório</span>
+    @if (form.get('chassi')?.touched) {
+      @if (form.get('chassi')?.hasError('required')) {
+        <span>Chassi é obrigatório</span>
+      } @else if (form.get('chassi')?.hasError('chassi')) {
+        <span>Chassi inválido (17 caracteres, sem I, O ou Q)</span>
+      }
     }
   </div>
 
   <div>
     <label for="renavam">Renavam</label>
     <input id="renavam" type="text" formControlName="renavam" />
-    @if (form.get('renavam')?.invalid && form.get('renavam')?.touched) {
-      <span>Renavam é obrigatório</span>
+    @if (form.get('renavam')?.touched) {
+      @if (form.get('renavam')?.hasError('required')) {
+        <span>Renavam é obrigatório</span>
+      } @else if (form.get('renavam')?.hasError('renavam')) {
+        <span>Renavam inválido (11 dígitos)</span>
+      }
     }
   </div>
 
