@@ -1,0 +1,37 @@
+<h1>Meus Veículos</h1>
+
+<button (click)="novoVeiculo()">+ Novo Veículo</button>
+
+@if (carregando()) {
+  <p>Carregando...</p>
+} @else if (erro()) {
+  <p>{{ erro() }}</p>
+} @else if (veiculos().length === 0) {
+  <p>Nenhum veículo cadastrado ainda.</p>
+} @else {
+  <table>
+    <thead>
+      <tr>
+        <th>Placa</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Ano</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (veiculo of veiculos(); track veiculo.id) {
+        <tr>
+          <td>{{ veiculo.placa }}</td>
+          <td>{{ veiculo.marca }}</td>
+          <td>{{ veiculo.modelo }}</td>
+          <td>{{ veiculo.ano }}</td>
+          <td>
+            <button (click)="editarVeiculo(veiculo.id!)">Editar</button>
+            <button (click)="deletarVeiculo(veiculo.id!)">Deletar</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
