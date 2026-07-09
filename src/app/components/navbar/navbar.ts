@@ -20,7 +20,13 @@ export class Navbar {
       next: () => {
         this.auth.usuarioLogado.set(false)
         this.router.navigate(['/login'])
-      }
+      },
+      error: () => this.deslogarLocalmente()
     })
+  }
+
+  private deslogarLocalmente(): void {
+    this.auth.usuarioLogado.set(false)
+    this.router.navigate(['/login'])
   }
 }
