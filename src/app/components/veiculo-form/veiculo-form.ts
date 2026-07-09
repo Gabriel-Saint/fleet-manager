@@ -22,6 +22,7 @@ export class VeiculoForm {
   protected readonly erro = signal('')
   protected readonly salvando = signal(false)
   protected readonly editando = signal(false)
+  protected readonly anoMax = new Date().getFullYear() + 1
 
   id = input<string>()
 
@@ -31,7 +32,11 @@ export class VeiculoForm {
     renavam: new FormControl('', [Validators.required, renavamValidator]),
     marca: new FormControl('', [Validators.required]),
     modelo: new FormControl('', [Validators.required]),
-    ano: new FormControl<number | null>(null, [Validators.required])
+    ano: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.min(1900),
+      Validators.max(this.anoMax)
+    ])
   })
 
   constructor() {
@@ -108,6 +113,13 @@ export class VeiculoForm {
         this.router.navigate(['/veiculos'])
       }
     })
+  }
+
+  protected limitarAno(event: Event): void {
+    const input = event.target as HTMLInputElement
+    const digitos = input.value.replace(/\D/g, '').slice(0, 4) // só números, no máx 4
+    input.value = digitos
+    this.form.get('ano')?.setValue(digitos ? Number(digitos) : null)
   }
 
   protected cancelar(): void {

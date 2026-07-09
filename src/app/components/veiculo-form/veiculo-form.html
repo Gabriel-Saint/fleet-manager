@@ -55,9 +55,20 @@
 
   <div>
     <label for="ano">Ano</label>
-    <input id="ano" type="number" formControlName="ano" />
-    @if (form.get('ano')?.invalid && form.get('ano')?.touched) {
-      <span>Ano é obrigatório</span>
+    <input
+      id="ano"
+      type="text"
+      inputmode="numeric"
+      maxlength="4"
+      formControlName="ano"
+      (input)="limitarAno($event)"
+    />
+    @if (form.get('ano')?.touched) {
+      @if (form.get('ano')?.hasError('required')) {
+        <span>Ano é obrigatório</span>
+      } @else if (form.get('ano')?.hasError('min') || form.get('ano')?.hasError('max')) {
+        <span>Ano deve estar entre 1900 e {{ anoMax }}</span>
+      }
     }
   </div>
 
