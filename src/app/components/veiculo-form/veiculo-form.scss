@@ -1,0 +1,42 @@
+/* =========================================================================
+   Formulário de veículo — card com grid de campos
+   ========================================================================= */
+
+.form-page {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.form-card {
+  padding: var(--space-6);
+}
+
+.form-title {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-5);
+}
+
+/* Grid: 2 colunas no desktop, 1 no mobile */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.form-grid__full {
+  grid-column: 1 / -1;   /* ocupa a linha inteira (erro + ações) */
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+@media (max-width: 560px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .form-actions { flex-direction: column-reverse; }
+  .form-actions .btn { width: 100%; }
+}

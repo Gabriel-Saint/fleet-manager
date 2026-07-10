@@ -1,0 +1,89 @@
+/* =========================================================================
+   Lista de veículos — cabeçalho + tabela corporativa
+   ========================================================================= */
+
+.list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.list-head__title {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Estados */
+.list-state {
+  color: var(--text-muted);
+  padding: var(--space-5) 0;
+}
+
+.list-empty {
+  padding: var(--space-7) var(--space-5);
+  text-align: center;
+  color: var(--text-muted);
+}
+
+/* Tabela */
+.table-wrap {
+  overflow-x: auto;               /* scroll horizontal no mobile */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-base);
+}
+
+.table th,
+.table td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table thead th {
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--border);
+}
+
+.table tbody tr {
+  border-bottom: 1px solid var(--border);
+}
+.table tbody tr:last-child { border-bottom: 0; }
+.table tbody tr:hover { background: var(--overlay); }
+
+.table__actions-col { width: 1%; }
+
+/* Ações da linha */
+.row-actions,
+.row-confirm {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* "Deletar" fica sóbrio; a cor vermelha só aparece na confirmação (Sim) */
+.row-actions__delete:not(:disabled):hover {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.row-confirm__text {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--text-on-danger-weak);
+}
+
+@media (max-width: 640px) {
+  .list-head { flex-direction: column; align-items: stretch; }
+}

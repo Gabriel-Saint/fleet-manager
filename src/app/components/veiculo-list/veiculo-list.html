@@ -1,43 +1,50 @@
-<h1>Meus Veículos</h1>
-
-<button (click)="novoVeiculo()">+ Novo Veículo</button>
+<div class="list-head">
+  <h1 class="list-head__title">Meus Veículos</h1>
+  <button (click)="novoVeiculo()" class="btn btn--primary">+ Novo Veículo</button>
+</div>
 
 @if (carregando()) {
-  <p>Carregando...</p>
+  <p class="list-state">Carregando...</p>
 } @else if (erro()) {
-  <p>{{ erro() }}</p>
+  <p class="alert-error">{{ erro() }}</p>
 } @else if (veiculos().length === 0) {
-  <p>Nenhum veículo cadastrado ainda.</p>
+  <div class="list-empty card">Nenhum veículo cadastrado ainda.</div>
 } @else {
-  <table>
-    <thead>
-      <tr>
-        <th>Placa</th>
-        <th>Marca</th>
-        <th>Modelo</th>
-        <th>Ano</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (veiculo of veiculos(); track veiculo.id) {
+  <div class="table-wrap card">
+    <table class="table">
+      <thead>
         <tr>
-          <td>{{ veiculo.placa }}</td>
-          <td>{{ veiculo.marca }}</td>
-          <td>{{ veiculo.modelo }}</td>
-          <td>{{ veiculo.ano }}</td>
-          <td>
-            @if (confirmandoId() === veiculo.id) {
-              <span>Confirmar exclusão?</span>
-              <button (click)="confirmarExclusao(veiculo.id!)">Sim</button>
-              <button (click)="cancelarExclusao()">Não</button>
-            } @else {
-              <button (click)="editarVeiculo(veiculo.id!)">Editar</button>
-              <button (click)="pedirConfirmacao(veiculo.id!)">Deletar</button>
-            }
-          </td>
+          <th>Placa</th>
+          <th>Marca</th>
+          <th>Modelo</th>
+          <th>Ano</th>
+          <th class="table__actions-col">Ações</th>
         </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @for (veiculo of veiculos(); track veiculo.id) {
+          <tr>
+            <td class="mono">{{ veiculo.placa }}</td>
+            <td>{{ veiculo.marca }}</td>
+            <td>{{ veiculo.modelo }}</td>
+            <td>{{ veiculo.ano }}</td>
+            <td>
+              @if (confirmandoId() === veiculo.id) {
+                <div class="row-confirm">
+                  <span class="row-confirm__text">Confirmar exclusão?</span>
+                  <button (click)="confirmarExclusao(veiculo.id!)" class="btn btn--danger btn--sm">Sim</button>
+                  <button (click)="cancelarExclusao()" class="btn btn--ghost btn--sm">Não</button>
+                </div>
+              } @else {
+                <div class="row-actions">
+                  <button (click)="editarVeiculo(veiculo.id!)" class="btn btn--ghost btn--sm">Editar</button>
+                  <button (click)="pedirConfirmacao(veiculo.id!)" class="btn btn--ghost btn--sm row-actions__delete">Deletar</button>
+                </div>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 }

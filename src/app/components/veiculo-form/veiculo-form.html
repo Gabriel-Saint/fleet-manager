@@ -1,84 +1,90 @@
-<h1>{{ editando() ? 'Editar Veículo' : 'Novo Veículo' }}</h1>
+<div class="form-page">
+  <div class="card form-card">
+    <h1 class="form-title">{{ editando() ? 'Editar Veículo' : 'Novo Veículo' }}</h1>
 
-<form [formGroup]="form" (ngSubmit)="salvar()">
-  <div>
-    <label for="placa">Placa</label>
-    <input id="placa" type="text" formControlName="placa" />
-    @if (form.get('placa')?.touched) {
-      @if (form.get('placa')?.hasError('required')) {
-        <span>Placa é obrigatória</span>
-      } @else if (form.get('placa')?.hasError('placa')) {
-        <span>Placa inválida (ex.: ABC1D23)</span>
+    <form [formGroup]="form" (ngSubmit)="salvar()" class="form-grid" novalidate>
+      <div class="field" [class.is-invalid]="form.get('placa')?.invalid && form.get('placa')?.touched">
+        <label for="placa" class="field__label">Placa</label>
+        <input id="placa" type="text" formControlName="placa" class="field__control mono" />
+        @if (form.get('placa')?.touched) {
+          @if (form.get('placa')?.hasError('required')) {
+            <span class="field__error" role="alert">Placa é obrigatória</span>
+          } @else if (form.get('placa')?.hasError('placa')) {
+            <span class="field__error" role="alert">Placa inválida (ex.: ABC1D23)</span>
+          }
+        }
+      </div>
+
+      <div class="field" [class.is-invalid]="form.get('chassi')?.invalid && form.get('chassi')?.touched">
+        <label for="chassi" class="field__label">Chassi</label>
+        <input id="chassi" type="text" formControlName="chassi" class="field__control mono" />
+        @if (form.get('chassi')?.touched) {
+          @if (form.get('chassi')?.hasError('required')) {
+            <span class="field__error" role="alert">Chassi é obrigatório</span>
+          } @else if (form.get('chassi')?.hasError('chassi')) {
+            <span class="field__error" role="alert">Chassi inválido (17 caracteres, sem I, O ou Q)</span>
+          }
+        }
+      </div>
+
+      <div class="field" [class.is-invalid]="form.get('renavam')?.invalid && form.get('renavam')?.touched">
+        <label for="renavam" class="field__label">Renavam</label>
+        <input id="renavam" type="text" formControlName="renavam" class="field__control mono" />
+        @if (form.get('renavam')?.touched) {
+          @if (form.get('renavam')?.hasError('required')) {
+            <span class="field__error" role="alert">Renavam é obrigatório</span>
+          } @else if (form.get('renavam')?.hasError('renavam')) {
+            <span class="field__error" role="alert">Renavam inválido (11 dígitos)</span>
+          }
+        }
+      </div>
+
+      <div class="field" [class.is-invalid]="form.get('ano')?.invalid && form.get('ano')?.touched">
+        <label for="ano" class="field__label">Ano</label>
+        <input
+          id="ano"
+          type="text"
+          inputmode="numeric"
+          maxlength="4"
+          formControlName="ano"
+          (input)="limitarAno($event)"
+          class="field__control"
+        />
+        @if (form.get('ano')?.touched) {
+          @if (form.get('ano')?.hasError('required')) {
+            <span class="field__error" role="alert">Ano é obrigatório</span>
+          } @else if (form.get('ano')?.hasError('min') || form.get('ano')?.hasError('max')) {
+            <span class="field__error" role="alert">Ano deve estar entre 1900 e {{ anoMax }}</span>
+          }
+        }
+      </div>
+
+      <div class="field" [class.is-invalid]="form.get('marca')?.invalid && form.get('marca')?.touched">
+        <label for="marca" class="field__label">Marca</label>
+        <input id="marca" type="text" formControlName="marca" class="field__control" />
+        @if (form.get('marca')?.invalid && form.get('marca')?.touched) {
+          <span class="field__error" role="alert">Marca é obrigatória</span>
+        }
+      </div>
+
+      <div class="field" [class.is-invalid]="form.get('modelo')?.invalid && form.get('modelo')?.touched">
+        <label for="modelo" class="field__label">Modelo</label>
+        <input id="modelo" type="text" formControlName="modelo" class="field__control" />
+        @if (form.get('modelo')?.invalid && form.get('modelo')?.touched) {
+          <span class="field__error" role="alert">Modelo é obrigatório</span>
+        }
+      </div>
+
+      @if (erro()) {
+        <p class="alert-error form-grid__full" role="alert">{{ erro() }}</p>
       }
-    }
+
+      <div class="form-actions form-grid__full">
+        <button type="submit" [disabled]="form.invalid || salvando()" class="btn btn--primary">
+          {{ salvando() ? 'Salvando...' : 'Salvar' }}
+        </button>
+        <button type="button" (click)="cancelar()" class="btn btn--ghost">Cancelar</button>
+      </div>
+    </form>
   </div>
-
-  <div>
-    <label for="chassi">Chassi</label>
-    <input id="chassi" type="text" formControlName="chassi" />
-    @if (form.get('chassi')?.touched) {
-      @if (form.get('chassi')?.hasError('required')) {
-        <span>Chassi é obrigatório</span>
-      } @else if (form.get('chassi')?.hasError('chassi')) {
-        <span>Chassi inválido (17 caracteres, sem I, O ou Q)</span>
-      }
-    }
-  </div>
-
-  <div>
-    <label for="renavam">Renavam</label>
-    <input id="renavam" type="text" formControlName="renavam" />
-    @if (form.get('renavam')?.touched) {
-      @if (form.get('renavam')?.hasError('required')) {
-        <span>Renavam é obrigatório</span>
-      } @else if (form.get('renavam')?.hasError('renavam')) {
-        <span>Renavam inválido (11 dígitos)</span>
-      }
-    }
-  </div>
-
-  <div>
-    <label for="marca">Marca</label>
-    <input id="marca" type="text" formControlName="marca" />
-    @if (form.get('marca')?.invalid && form.get('marca')?.touched) {
-      <span>Marca é obrigatória</span>
-    }
-  </div>
-
-  <div>
-    <label for="modelo">Modelo</label>
-    <input id="modelo" type="text" formControlName="modelo" />
-    @if (form.get('modelo')?.invalid && form.get('modelo')?.touched) {
-      <span>Modelo é obrigatório</span>
-    }
-  </div>
-
-  <div>
-    <label for="ano">Ano</label>
-    <input
-      id="ano"
-      type="text"
-      inputmode="numeric"
-      maxlength="4"
-      formControlName="ano"
-      (input)="limitarAno($event)"
-    />
-    @if (form.get('ano')?.touched) {
-      @if (form.get('ano')?.hasError('required')) {
-        <span>Ano é obrigatório</span>
-      } @else if (form.get('ano')?.hasError('min') || form.get('ano')?.hasError('max')) {
-        <span>Ano deve estar entre 1900 e {{ anoMax }}</span>
-      }
-    }
-  </div>
-
-  @if (erro()) {
-    <p>{{ erro() }}</p>
-  }
-
-  <button type="submit" [disabled]="form.invalid || salvando()">
-    {{ salvando() ? 'Salvando...' : 'Salvar' }}
-  </button>
-
-  <button type="button" (click)="cancelar()">Cancelar</button>
-</form>
+</div>
