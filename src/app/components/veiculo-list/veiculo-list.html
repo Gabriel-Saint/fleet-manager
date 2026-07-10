@@ -22,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (veiculo of veiculos(); track veiculo.id) {
+        @for (veiculo of veiculosPagina(); track veiculo.id) {
           <tr>
             <td class="mono">{{ veiculo.placa }}</td>
             <td>{{ veiculo.marca }}</td>
@@ -46,5 +46,22 @@
         }
       </tbody>
     </table>
+  </div>
+
+  <div class="pager">
+    <label class="pager__size">
+      Por página:
+      <select class="pager__select" [value]="tamanhoPagina()" (change)="mudarTamanho($event)">
+        @for (n of tamanhosDisponiveis; track n) {
+          <option [value]="n">{{ n }}</option>
+        }
+      </select>
+    </label>
+
+    <div class="pager__nav">
+      <button type="button" class="btn btn--ghost btn--sm" [disabled]="pagina() === 1" (click)="paginaAnterior()">‹ Anterior</button>
+      <span class="pager__status">Página {{ pagina() }} de {{ totalPaginas() }}</span>
+      <button type="button" class="btn btn--ghost btn--sm" [disabled]="pagina() === totalPaginas()" (click)="proximaPagina()">Próxima ›</button>
+    </div>
   </div>
 }
