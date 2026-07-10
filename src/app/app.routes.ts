@@ -8,6 +8,11 @@ export const routes: Routes = [
       .then(c => c.Login)
   },
   {
+    path: 'cadastro',
+    loadComponent: () => import('./components/cadastro/cadastro')
+      .then(c => c.Cadastro)
+  },
+  {
     path: 'veiculos',
     canActivate: [authGuard],
     loadComponent: () => import('./components/veiculo-list/veiculo-list')

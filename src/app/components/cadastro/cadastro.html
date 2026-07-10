@@ -1,0 +1,40 @@
+@if (sucesso()) {
+  <p>Cadastro criado! Verifique seu e-mail para confirmar.</p>
+  <a routerLink="/login">Ir para o login</a>
+} @else {
+  <form [formGroup]="form" (ngSubmit)="cadastrar()">
+    <div>
+      <label for="email">E-mail</label>
+      <input id="email" type="email" formControlName="email" />
+      @if (form.get('email')?.invalid && form.get('email')?.touched) {
+        <span>E-mail inválido</span>
+      }
+    </div>
+
+    <div>
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" formControlName="senha" />
+      @if (form.get('senha')?.invalid && form.get('senha')?.touched) {
+        <span>Senha deve ter no mínimo 6 caracteres</span>
+      }
+    </div>
+
+    <div>
+      <label for="confirmarSenha">Confirmar senha</label>
+      <input id="confirmarSenha" type="password" formControlName="confirmarSenha" />
+      @if (form.hasError('camposIguais') && form.get('confirmarSenha')?.touched) {
+        <span>As senhas não conferem</span>
+      }
+    </div>
+
+    @if (erro()) {
+      <p>{{ erro() }}</p>
+    }
+
+    <button type="submit" [disabled]="form.invalid || salvando()">
+      {{ salvando() ? 'Cadastrando...' : 'Cadastrar' }}
+    </button>
+  </form>
+
+  <a routerLink="/login">Já tenho conta</a>
+}
