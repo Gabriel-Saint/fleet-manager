@@ -1,40 +1,75 @@
-@if (sucesso()) {
-  <p>Cadastro criado! Verifique seu e-mail para confirmar.</p>
-  <a routerLink="/login">Ir para o login</a>
-} @else {
-  <form [formGroup]="form" (ngSubmit)="cadastrar()">
-    <div>
-      <label for="email">E-mail</label>
-      <input id="email" type="email" formControlName="email" />
-      @if (form.get('email')?.invalid && form.get('email')?.touched) {
-        <span>E-mail inválido</span>
-      }
-    </div>
+<div class="auth">
+  <div class="auth__card card">
+    @if (sucesso()) {
+      <header class="auth__head">
+        <span class="auth__logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1.5 5.5h11v9h-11z" />
+            <path d="M12.5 8h4l4 3.5v3h-8z" />
+            <circle cx="6" cy="17" r="1.7" />
+            <circle cx="16.5" cy="17" r="1.7" />
+          </svg>
+        </span>
+        <h1 class="auth__title">Conta criada</h1>
+      </header>
 
-    <div>
-      <label for="senha">Senha</label>
-      <input id="senha" type="password" formControlName="senha" />
-      @if (form.get('senha')?.invalid && form.get('senha')?.touched) {
-        <span>Senha deve ter no mínimo 6 caracteres</span>
-      }
-    </div>
+      <p class="alert-success">Cadastro criado! Verifique seu e-mail para confirmar.</p>
 
-    <div>
-      <label for="confirmarSenha">Confirmar senha</label>
-      <input id="confirmarSenha" type="password" formControlName="confirmarSenha" />
-      @if (form.hasError('camposIguais') && form.get('confirmarSenha')?.touched) {
-        <span>As senhas não conferem</span>
-      }
-    </div>
+      <p class="auth__foot">
+        <a routerLink="/login" class="btn--link">Ir para o login</a>
+      </p>
+    } @else {
+      <header class="auth__head">
+        <span class="auth__logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1.5 5.5h11v9h-11z" />
+            <path d="M12.5 8h4l4 3.5v3h-8z" />
+            <circle cx="6" cy="17" r="1.7" />
+            <circle cx="16.5" cy="17" r="1.7" />
+          </svg>
+        </span>
+        <h1 class="auth__title">Criar conta</h1>
+        <p class="auth__subtitle">Comece a gerenciar sua frota.</p>
+      </header>
 
-    @if (erro()) {
-      <p>{{ erro() }}</p>
+      <form [formGroup]="form" (ngSubmit)="cadastrar()" class="auth__form" novalidate>
+        <div class="field" [class.is-invalid]="form.get('email')?.invalid && form.get('email')?.touched">
+          <label for="email" class="field__label">E-mail</label>
+          <input id="email" type="email" autocomplete="email" formControlName="email" class="field__control" />
+          @if (form.get('email')?.invalid && form.get('email')?.touched) {
+            <span class="field__error" role="alert">E-mail inválido</span>
+          }
+        </div>
+
+        <div class="field" [class.is-invalid]="form.get('senha')?.invalid && form.get('senha')?.touched">
+          <label for="senha" class="field__label">Senha</label>
+          <input id="senha" type="password" autocomplete="new-password" formControlName="senha" class="field__control" />
+          @if (form.get('senha')?.invalid && form.get('senha')?.touched) {
+            <span class="field__error" role="alert">Senha deve ter no mínimo 6 caracteres</span>
+          }
+        </div>
+
+        <div class="field" [class.is-invalid]="form.hasError('camposIguais') && form.get('confirmarSenha')?.touched">
+          <label for="confirmarSenha" class="field__label">Confirmar senha</label>
+          <input id="confirmarSenha" type="password" autocomplete="new-password" formControlName="confirmarSenha" class="field__control" />
+          @if (form.hasError('camposIguais') && form.get('confirmarSenha')?.touched) {
+            <span class="field__error" role="alert">As senhas não conferem</span>
+          }
+        </div>
+
+        @if (erro()) {
+          <p class="alert-error" role="alert">{{ erro() }}</p>
+        }
+
+        <button type="submit" [disabled]="form.invalid || salvando()" class="btn btn--primary btn--block">
+          {{ salvando() ? 'Cadastrando...' : 'Cadastrar' }}
+        </button>
+      </form>
+
+      <p class="auth__foot">
+        Já tem conta?
+        <a routerLink="/login" class="btn--link">Fazer login</a>
+      </p>
     }
-
-    <button type="submit" [disabled]="form.invalid || salvando()">
-      {{ salvando() ? 'Cadastrando...' : 'Cadastrar' }}
-    </button>
-  </form>
-
-  <a routerLink="/login">Já tenho conta</a>
-}
+  </div>
+</div>

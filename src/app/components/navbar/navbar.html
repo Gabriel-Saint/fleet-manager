@@ -1,8 +1,22 @@
 @if (logado()) {
-  <nav>
-    <a routerLink="/veiculos" class="marca">{{ marca() }}</a>
-    <a routerLink="/veiculos">Meus Veículos</a>
-    <a routerLink="/veiculos/novo">Novo Veículo</a>
-    <button type="button" (click)="sair()">Sair</button>
+  <nav class="navbar">
+    <div class="navbar__inner">
+      <a routerLink="/veiculos" class="navbar__brand marca">
+        <svg class="navbar__logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M1.5 5.5h11v9h-11z" />
+          <path d="M12.5 8h4l4 3.5v3h-8z" />
+          <circle cx="6" cy="17" r="1.7" />
+          <circle cx="16.5" cy="17" r="1.7" />
+        </svg>
+        {{ marca() }}
+      </a>
+
+      <div class="navbar__links">
+        <a routerLink="/veiculos" class="navbar__link">Meus Veículos</a>
+        <a routerLink="/veiculos/novo" class="navbar__link">Novo Veículo</a>
+      </div>
+
+      <button type="button" (click)="sair()" class="navbar__signout">Sair</button>
+    </div>
   </nav>
 }
