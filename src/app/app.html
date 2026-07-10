@@ -1,5 +1,12 @@
 @if (carregando()) {
-  <p>Carregando...</p>
+  <div class="app-loading" role="status" aria-live="polite">
+    <div class="app-loading__bar"></div>
+    <span class="sr-only">Carregando...</span>
+  </div>
 }
+
 <app-navbar />
-<router-outlet />
+
+<main class="app-main">
+  <router-outlet />
+</main>

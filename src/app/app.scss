@@ -1,0 +1,45 @@
+/* =========================================================================
+   Shell — barra de progresso global fixa no topo + área de conteúdo
+   ========================================================================= */
+
+.app-loading {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  height: 3px;
+  background: var(--color-primary-weak);
+  overflow: hidden;
+}
+
+.app-loading__bar {
+  height: 100%;
+  width: 40%;
+  background: var(--color-primary);
+  border-radius: var(--radius-pill);
+  animation: app-loading-slide 1.1s ease-in-out infinite;
+}
+
+@keyframes app-loading-slide {
+  0%   { transform: translateX(-100%); }
+  50%  { transform: translateX(120%); }
+  100% { transform: translateX(260%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-loading__bar {
+    width: 100%;
+    animation: app-loading-pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes app-loading-pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+}
+
+.app-main {
+  display: block;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+}
+
+@media (max-width: 640px) {
+  .app-main { padding: var(--space-4) var(--space-3); }
+}

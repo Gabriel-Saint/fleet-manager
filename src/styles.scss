@@ -1,39 +1,369 @@
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
-@use '@angular/material' as mat;
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
-html {
-  height: 100%;
-  @include mat.theme(
-    (
-      color: (
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
-      ),
-      typography: Roboto,
-      density: 0,
-    )
-  );
+/* =========================================================================
+   FleetManager — tokens globais + reset
+   Dashboard corporativo. Primária azul-petróleo, neutros frios,
+   vermelho reservado só para ações destrutivas.
+   ========================================================================= */
+
+:root {
+  /* --- Cor: primária (azul-petróleo) --- */
+  --color-primary: #0f766e;
+  --color-primary-hover: #0c635c;
+  --color-primary-active: #0a524c;
+  --color-primary-weak: #e6f4f1;     /* fundo de realce sutil */
+  --color-on-primary: #ffffff;
+  --color-accent: #0f766e;           /* links / texto de destaque */
+
+  /* --- Cor: perigo (só destrutivo) --- */
+  --color-danger: #dc2626;
+  --color-danger-hover: #b91c1c;
+  --color-danger-weak: #fef2f2;
+  --color-on-danger: #ffffff;
+
+  /* --- Cor: neutros / superfícies --- */
+  --bg: #f5f6f7;
+  --surface: #ffffff;
+  --surface-2: #f9fafb;              /* linhas alternadas, cabeçalho de tabela */
+  --border: #e2e5e9;
+  --border-strong: #cbd2d9;
+  --overlay: rgba(16, 24, 32, 0.04);
+
+  /* --- Cor: texto --- */
+  --text: #1a1f24;
+  --text-muted: #5b6672;
+  --text-subtle: #8a94a0;
+  --text-on-danger-weak: #991b1b;
+
+  /* --- Foco --- */
+  --focus-ring: 0 0 0 3px rgba(15, 118, 110, 0.35);
+  --focus-ring-danger: 0 0 0 3px rgba(220, 38, 38, 0.32);
+
+  /* --- Tipografia --- */
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --fs-xs: 0.75rem;    /* 12 */
+  --fs-sm: 0.8125rem;  /* 13 */
+  --fs-base: 0.875rem; /* 14 — densidade de ferramenta */
+  --fs-md: 1rem;       /* 16 */
+  --fs-lg: 1.25rem;    /* 20 */
+  --fs-xl: 1.5rem;     /* 24 */
+
+  /* --- Espaçamento --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* --- Raio --- */
+  --radius-sm: 3px;
+  --radius: 4px;
+  --radius-lg: 6px;
+  --radius-pill: 999px;
+
+  /* --- Sombra (discretas) --- */
+  --shadow-sm: 0 1px 2px rgba(16, 24, 32, 0.06);
+  --shadow-md: 0 1px 2px rgba(16, 24, 32, 0.06), 0 4px 12px rgba(16, 24, 32, 0.07);
+  --shadow-navbar: 0 1px 0 var(--border), 0 1px 3px rgba(16, 24, 32, 0.05);
+
+  --navbar-h: 56px;
+  --content-max: 1080px;
 }
+
+/* --- Tema escuro --- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary: #14b8a6;
+    --color-primary-hover: #2dd4bf;
+    --color-primary-active: #5eead4;
+    --color-primary-weak: rgba(20, 184, 166, 0.14);
+    --color-on-primary: #04211e;
+    --color-accent: #5eead4;
+
+    --color-danger: #f05252;
+    --color-danger-hover: #f87171;
+    --color-danger-weak: rgba(240, 82, 82, 0.14);
+    --color-on-danger: #1a0808;
+
+    --bg: #0e1417;
+    --surface: #161d22;
+    --surface-2: #1b242a;
+    --border: #29343c;
+    --border-strong: #3a4750;
+    --overlay: rgba(255, 255, 255, 0.04);
+
+    --text: #e6eaed;
+    --text-muted: #9aa6b0;
+    --text-subtle: #6b7681;
+    --text-on-danger-weak: #fca5a5;
+
+    --focus-ring: 0 0 0 3px rgba(45, 212, 191, 0.4);
+    --focus-ring-danger: 0 0 0 3px rgba(240, 82, 82, 0.4);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 16px rgba(0, 0, 0, 0.45);
+    --shadow-navbar: 0 1px 0 var(--border), 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* =========================================================================
+   Reset
+   ========================================================================= */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
   margin: 0;
-  height: 100%;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
-/* You can add global styles to this file, and also import other style files */
+
+h1, h2, h3, p, figure { margin: 0; }
+
+button { font: inherit; color: inherit; cursor: pointer; }
+
+input, select, textarea { font: inherit; }
+
+a { color: var(--color-accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Foco visível global (acessibilidade AA) */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+/* Utilitário: apenas leitores de tela */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+/* =========================================================================
+   Primitivos de UI compartilhados (usados por login, cadastro, formulários)
+   ========================================================================= */
+
+/* --- Cartão / painel --- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+/* --- Campo de formulário --- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.field__label {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.field__control,
+.input {
+  width: 100%;
+  height: 40px;
+  padding: 0 var(--space-3);
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.field__control::placeholder,
+.input::placeholder { color: var(--text-subtle); }
+
+.field__control:hover,
+.input:hover { border-color: var(--text-subtle); }
+
+.field__control:focus,
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+}
+
+/* Estado inválido — realce neutro-alerta, sem “gritar” */
+.field.is-invalid .field__control,
+.input.is-invalid {
+  border-color: var(--color-danger);
+}
+.field.is-invalid .field__control:focus,
+.input.is-invalid:focus { box-shadow: var(--focus-ring-danger); }
+
+/* Mensagem de erro inline */
+.field__error,
+.form-error {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--color-danger);
+}
+
+/* Banner de erro (topo do formulário) */
+.alert-error {
+  padding: var(--space-3) var(--space-3);
+  background: var(--color-danger-weak);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius);
+  color: var(--text-on-danger-weak);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+}
+
+/* Banner de sucesso */
+.alert-success {
+  padding: var(--space-4);
+  background: var(--color-primary-weak);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: var(--fs-base);
+}
+
+/* --- Botões --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: 40px;
+  padding: 0 var(--space-5);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-size: var(--fs-base);
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease, opacity 0.12s ease;
+}
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.btn--block { width: 100%; }
+.btn--sm { height: 32px; padding: 0 var(--space-3); font-size: var(--fs-sm); }
+
+/* Primário (petróleo) */
+.btn--primary {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+.btn--primary:not(:disabled):hover { background: var(--color-primary-hover); }
+.btn--primary:not(:disabled):active { background: var(--color-primary-active); }
+
+/* Secundário / contorno neutro */
+.btn--ghost {
+  background: transparent;
+  border-color: var(--border-strong);
+  color: var(--text-muted);
+}
+.btn--ghost:not(:disabled):hover {
+  background: var(--overlay);
+  color: var(--text);
+  border-color: var(--text-subtle);
+}
+
+/* Destrutivo — vermelho, reservado só para excluir */
+.btn--danger {
+  background: var(--color-danger);
+  color: var(--color-on-danger);
+}
+.btn--danger:not(:disabled):hover { background: var(--color-danger-hover); }
+.btn--danger:focus-visible { box-shadow: var(--focus-ring-danger); }
+
+/* Link textual como botão */
+.btn--link {
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-accent);
+  font-weight: 600;
+}
+.btn--link:hover { text-decoration: underline; }
+
+/* Fonte monoespaçada para códigos (placa, chassi, renavam) */
+.mono { font-family: var(--font-mono); letter-spacing: 0.02em; }
+
+/* =========================================================================
+   Layout de autenticação — card centralizado (login + cadastro)
+   ========================================================================= */
+.auth {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: calc(100vh - var(--navbar-h));
+  padding: var(--space-7) var(--space-4);
+}
+
+.auth__card {
+  width: 100%;
+  max-width: 400px;
+  padding: var(--space-6);
+}
+
+.auth__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.auth__logo {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  margin-bottom: var(--space-2);
+  color: var(--color-primary);
+}
+.auth__logo svg { width: 100%; height: 100%; }
+
+.auth__title {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.auth__subtitle {
+  font-size: var(--fs-base);
+  color: var(--text-muted);
+}
+
+.auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.auth__foot {
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .auth { padding: var(--space-5) var(--space-3); }
+  .auth__card { padding: var(--space-5); }
+}
