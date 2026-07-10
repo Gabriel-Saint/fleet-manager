@@ -7,6 +7,10 @@
 
 <app-navbar />
 
+@if (mensagem()) {
+  <div class="toast alert-success" role="status" aria-live="polite">{{ mensagem() }}</div>
+}
+
 <main class="app-main">
   <router-outlet />
 </main>

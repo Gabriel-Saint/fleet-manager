@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal, OnInit } 
 import { Router } from '@angular/router'
 import { Veiculo as VeiculoService } from '../../services/veiculo'
 import { Veiculo as VeiculoModel } from '../../models/veiculo'
+import { Notificacao } from '../../services/notificacao'
 
 @Component({
   selector: 'app-veiculo-list',
@@ -13,6 +14,7 @@ import { Veiculo as VeiculoModel } from '../../models/veiculo'
 export class VeiculoList implements OnInit {
   private veiculoService = inject(VeiculoService)
   private router = inject(Router)
+  private notificacao = inject(Notificacao)
 
   protected readonly veiculos = signal<VeiculoModel[]>([])
   protected readonly carregando = signal(true)
@@ -94,6 +96,7 @@ export class VeiculoList implements OnInit {
         this.confirmandoId.set(null)
         // se a página atual ficou vazia após excluir, recua para a última válida
         if (this.pagina() > this.totalPaginas()) this.pagina.set(this.totalPaginas())
+        this.notificacao.sucesso('Veículo excluído com sucesso')
       }
     })
   }

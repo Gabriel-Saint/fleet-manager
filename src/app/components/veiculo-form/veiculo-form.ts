@@ -3,6 +3,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
 import { Router } from '@angular/router'
 import { Veiculo as VeiculoService } from '../../services/veiculo'
 import { Auth } from '../../services/auth'
+import { Notificacao } from '../../services/notificacao'
 import { placaValidator } from '../../validators/placa'
 import { chassiValidator } from '../../validators/chassi'
 import { renavamValidator } from '../../validators/renavam'
@@ -18,6 +19,7 @@ export class VeiculoForm {
   private veiculoService = inject(VeiculoService)
   private auth = inject(Auth)
   private router = inject(Router)
+  private notificacao = inject(Notificacao)
 
   protected readonly erro = signal('')
   protected readonly salvando = signal(false)
@@ -97,6 +99,7 @@ export class VeiculoForm {
           this.erro.set('Erro ao criar veículo')
           return
         }
+        this.notificacao.sucesso('Veículo cadastrado com sucesso')
         this.router.navigate(['/veiculos'])
       }
     })
@@ -110,6 +113,7 @@ export class VeiculoForm {
           this.erro.set('Erro ao atualizar veículo')
           return
         }
+        this.notificacao.sucesso('Veículo atualizado com sucesso')
         this.router.navigate(['/veiculos'])
       }
     })
