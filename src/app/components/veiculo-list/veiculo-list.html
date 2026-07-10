@@ -27,8 +27,14 @@
           <td>{{ veiculo.modelo }}</td>
           <td>{{ veiculo.ano }}</td>
           <td>
-            <button (click)="editarVeiculo(veiculo.id!)">Editar</button>
-            <button (click)="deletarVeiculo(veiculo.id!)">Deletar</button>
+            @if (confirmandoId() === veiculo.id) {
+              <span>Confirmar exclusão?</span>
+              <button (click)="confirmarExclusao(veiculo.id!)">Sim</button>
+              <button (click)="cancelarExclusao()">Não</button>
+            } @else {
+              <button (click)="editarVeiculo(veiculo.id!)">Editar</button>
+              <button (click)="pedirConfirmacao(veiculo.id!)">Deletar</button>
+            }
           </td>
         </tr>
       }

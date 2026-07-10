@@ -17,6 +17,7 @@ export class VeiculoList implements OnInit {
   protected readonly veiculos = signal<VeiculoModel[]>([])
   protected readonly carregando = signal(true)
   protected readonly erro = signal('')
+  protected readonly confirmandoId = signal<string | null>(null)
 
   ngOnInit(): void {
     this.carregarVeiculos()
@@ -46,7 +47,15 @@ export class VeiculoList implements OnInit {
     this.router.navigate(['/veiculos', id, 'editar'])
   }
 
-  protected deletarVeiculo(id: string): void {
+  protected pedirConfirmacao(id: string): void {
+    this.confirmandoId.set(id)
+  }
+
+  protected cancelarExclusao(): void {
+    this.confirmandoId.set(null)
+  }
+
+  protected confirmarExclusao(id: string): void {
     this.veiculoService.delete(id).subscribe({
       next: ({ error }) => {
         if (error) {
@@ -54,6 +63,7 @@ export class VeiculoList implements OnInit {
           return
         }
         this.veiculos.update(lista => lista.filter(v => v.id !== id))
+        this.confirmandoId.set(null)
       }
     })
   }
