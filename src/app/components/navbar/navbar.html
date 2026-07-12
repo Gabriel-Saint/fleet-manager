@@ -14,6 +14,9 @@
       <div class="navbar__links">
         <a routerLink="/veiculos" class="navbar__link">Meus Veículos</a>
         <a routerLink="/veiculos/novo" class="navbar__link">Novo Veículo</a>
+        @if (ehAdmin()) {
+          <a routerLink="/admin" class="navbar__link">Admin</a>
+        }
       </div>
 
       <button type="button" (click)="sair()" class="navbar__signout">Sair</button>

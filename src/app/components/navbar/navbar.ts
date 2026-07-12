@@ -15,6 +15,7 @@ export class Navbar {
 
   protected readonly marca = signal('FleetManager')
   protected readonly logado = this.auth.usuarioLogado
+  protected readonly ehAdmin = this.auth.isAdmin
 
   protected sair(): void {
     this.auth.logout().subscribe({

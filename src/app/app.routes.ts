@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router'
 import { authGuard } from './guards/auth-guard'
+import { adminGuard } from './guards/admin-guard'
 
 export const routes: Routes = [
   {
@@ -29,6 +30,12 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () => import('./components/veiculo-form/veiculo-form')
       .then(c => c.VeiculoForm)
+  },
+  {
+    path: 'admin',
+    canActivate: [adminGuard],
+    loadComponent: () => import('./components/admin/admin')
+      .then(c => c.Admin)
   },
   {
     path: '',

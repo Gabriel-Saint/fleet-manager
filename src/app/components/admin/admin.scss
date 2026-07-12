@@ -1,0 +1,100 @@
+/* =========================================================================
+   Painel de administração — cards de estatística + tabela de usuários
+   ========================================================================= */
+
+.admin__title {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-5);
+}
+
+.admin__state {
+  color: var(--text-muted);
+  padding: var(--space-5) 0;
+}
+
+/* Cards de estatística */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4) var(--space-5);
+}
+
+.stat__label {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.stat__value {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* Tabela */
+.table-wrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-base);
+}
+
+.table th,
+.table td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table thead th {
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--border);
+}
+
+.table tbody tr {
+  border-bottom: 1px solid var(--border);
+}
+.table tbody tr:last-child { border-bottom: 0; }
+.table tbody tr:hover { background: var(--overlay); }
+
+.table__actions-col { width: 1%; }
+
+/* Selo de papel */
+.badge {
+  display: inline-block;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: var(--overlay);
+  color: var(--text-muted);
+}
+.badge--admin {
+  background: var(--color-primary-weak);
+  color: var(--color-primary);
+}
+
+.admin__voce {
+  font-size: var(--fs-sm);
+  color: var(--text-subtle);
+  font-style: italic;
+}

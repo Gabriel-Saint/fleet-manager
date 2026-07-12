@@ -10,6 +10,7 @@ export class Auth {
 
   usuarioLogado = signal<boolean>(false)
   isAdmin = signal<boolean>(false)
+  usuarioId = signal<string | null>(null)
 
   constructor() {
     this.verificarSessao()
@@ -19,6 +20,7 @@ export class Auth {
     const { data } = await this.supabase.client.auth.getSession()
     const logado = !!data.session
     this.usuarioLogado.set(logado)
+    this.usuarioId.set(data.session?.user.id ?? null)
 
     if (logado) {
       const { data: ehAdmin } = await this.supabase.client.rpc('is_admin')
