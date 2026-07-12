@@ -15,6 +15,11 @@ export class Login {
   private router = inject(Router)
 
   protected readonly erro = signal('')
+  protected readonly mostrarSenha = signal(false)
+
+  protected alternarSenha(): void {
+    this.mostrarSenha.update(v => !v)
+  }
 
   protected readonly form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),

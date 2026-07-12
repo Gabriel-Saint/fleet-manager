@@ -213,6 +213,31 @@ a:hover { text-decoration: underline; }
 .field.is-invalid .field__control:focus,
 .input.is-invalid:focus { box-shadow: var(--focus-ring-danger); }
 
+/* Campo de senha com botão "olho" (mostrar/ocultar) */
+.field__input-wrap {
+  position: relative;
+  display: flex;
+}
+.field__input-wrap .field__control {
+  padding-right: 40px; /* espaço pro botão não cobrir o texto */
+}
+.field__toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: none;
+  color: var(--text-subtle);
+  transition: color 0.12s ease;
+}
+.field__toggle:hover { color: var(--text-muted); }
+.field__toggle svg { width: 18px; height: 18px; }
+
 /* Mensagem de erro inline */
 .field__error,
 .form-error {

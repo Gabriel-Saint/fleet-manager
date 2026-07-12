@@ -17,6 +17,16 @@ export class Cadastro {
   protected readonly erro = signal('')
   protected readonly sucesso = signal(false)
   protected readonly salvando = signal(false)
+  protected readonly mostrarSenha = signal(false)
+  protected readonly mostrarConfirmar = signal(false)
+
+  protected alternarSenha(): void {
+    this.mostrarSenha.update(v => !v)
+  }
+
+  protected alternarConfirmar(): void {
+    this.mostrarConfirmar.update(v => !v)
+  }
 
   protected readonly form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
