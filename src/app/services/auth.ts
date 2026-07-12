@@ -9,6 +9,7 @@ export class Auth {
   private supabase = inject(Supabase)
 
   usuarioLogado = signal<boolean>(false)
+  isAdmin = signal<boolean>(false)
 
   constructor() {
     this.verificarSessao()
@@ -16,7 +17,15 @@ export class Auth {
 
   async verificarSessao() {
     const { data } = await this.supabase.client.auth.getSession()
-    this.usuarioLogado.set(!!data.session)
+    const logado = !!data.session
+    this.usuarioLogado.set(logado)
+
+    if (logado) {
+      const { data: ehAdmin } = await this.supabase.client.rpc('is_admin')
+      this.isAdmin.set(ehAdmin === true)
+    } else {
+      this.isAdmin.set(false)
+    }
   }
 
   login(email: string, senha: string): Observable<any> {

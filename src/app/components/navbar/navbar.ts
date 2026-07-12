@@ -18,16 +18,14 @@ export class Navbar {
 
   protected sair(): void {
     this.auth.logout().subscribe({
-      next: () => {
-        this.auth.usuarioLogado.set(false)
-        this.router.navigate(['/login'])
-      },
+      next: () => this.deslogarLocalmente(),
       error: () => this.deslogarLocalmente()
     })
   }
 
   private deslogarLocalmente(): void {
     this.auth.usuarioLogado.set(false)
+    this.auth.isAdmin.set(false)
     this.router.navigate(['/login'])
   }
 }

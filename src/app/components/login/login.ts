@@ -32,8 +32,8 @@ export class Login {
           this.erro.set('E-mail ou senha inválidos')
           return
         }
-        this.auth.usuarioLogado.set(true)
-        this.router.navigate(['/veiculos'])
+        // verificarSessao popula usuarioLogado E isAdmin a partir da sessão nova
+        this.auth.verificarSessao().then(() => this.router.navigate(['/veiculos']))
       }
     })
   }
