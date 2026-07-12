@@ -45,3 +45,5 @@ Thumbs.db
 
 claude
 .claude
+db/
+migrations/
