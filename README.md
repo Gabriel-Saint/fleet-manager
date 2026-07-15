@@ -17,6 +17,7 @@ Um gestor de frota simples: você faz login, cadastra veículos (placa, chassi, 
 - **Reactive Forms** — com validadores customizados escritos à mão
 - **SCSS puro** — sem Angular Material; um design system próprio construído em cima de CSS custom properties
 - **Vitest** — test runner (builder `@angular/build:unit-test`)
+- **Native Federation** — este app é o host de um microfrontend (ver seção própria abaixo)
 
 ## Conceitos explorados
 
@@ -51,13 +52,41 @@ Nada de Angular Material. `styles.scss` define tokens (`--color-primary`, `--spa
 
 ---
 
+## Arquitetura de microfrontend: `/admin` é um remote
+
+O painel de administração não mora mais neste repositório. Ele foi extraído pro `fleet-manager-admin` — outro app Angular, outro repo, outro deploy — e este app (o **host**) o consome em runtime via **Native Federation**, sem nenhuma dependência de build entre os dois:
+
+```ts
+// app.routes.ts
+{
+  path: 'admin',
+  canActivate: [adminGuard],
+  loadComponent: () =>
+    loadRemoteModule({
+      remoteEntry: 'http://localhost:4201/remoteEntry.json',
+      exposedModule: './Admin',
+    }).then(m => m.Admin)
+}
+```
+
+Pontos que só existem por causa disso:
+
+- **`federation.config.js`** — marca `@angular/*`/`rxjs` como `shared: singleton`, pra este app e o remote usarem a mesma instância do framework em vez de duplicar o bundle.
+- **`main.ts`/`bootstrap.ts` separados** — `initFederation()` precisa injetar o import map do browser *antes* de qualquer import de `@angular/core` acontecer; por isso o `bootstrapApplication(...)` foi movido pro `bootstrap.ts`, importado dinamicamente só depois que a federação está pronta.
+- **`Loading` e `Notificacao` escutam `window`** — o remote não tem acesso à instância desses serviços (são classes diferentes, em repositórios diferentes), então ele avisa o spinner/toast globais via `CustomEvent` (`fm:loading`, `fm:notificacao`) em vez de DI compartilhado. Contrato documentado no README do `fleet-manager-admin`.
+- **`adminGuard` continua aqui** — a checagem de permissão roda no host, *antes* de sequer buscar o remote; se o usuário não é admin, o `remoteEntry.json` nunca chega a ser baixado.
+
+Rodar `/admin` de verdade exige os dois apps no ar: este (`ng serve`, porta 4200) e o `fleet-manager-admin` (`ng serve`, porta 4201).
+
+---
+
 ## Estrutura
 
 ```
 src/app/
   components/     login, cadastro, navbar, veiculo-list, veiculo-form
   services/       supabase, auth, veiculo, loading, notificacao
-  guards/         auth-guard
+  guards/         auth-guard, admin-guard
   interceptors/   auth, loading, error
   validators/     placa, chassi, renavam, campos-iguais
   models/         veiculo, usuario
@@ -76,7 +105,7 @@ npm install
 ng serve
 ```
 
-Abre em `http://localhost:4200`. Precisa de um projeto Supabase configurado em `src/environments/` (URL + anon key).
+Abre em `http://localhost:4200`. Precisa de um projeto Supabase configurado em `src/environments/` (URL + anon key). Pra `/admin` funcionar, o `fleet-manager-admin` também precisa estar rodando — ver "Arquitetura de microfrontend" acima.
 
 ```bash
 ng test    # roda os testes (Vitest)
