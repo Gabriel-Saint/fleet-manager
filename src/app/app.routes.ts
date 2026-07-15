@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router'
+import { loadRemoteModule } from '@angular-architects/native-federation'
 import { authGuard } from './guards/auth-guard'
 import { adminGuard } from './guards/admin-guard'
 
@@ -34,8 +35,11 @@ export const routes: Routes = [
   {
     path: 'admin',
     canActivate: [adminGuard],
-    loadComponent: () => import('./components/admin/admin')
-      .then(c => c.Admin)
+    loadComponent: () =>
+      loadRemoteModule({
+        remoteEntry: 'http://localhost:4201/remoteEntry.json',
+        exposedModule: './Admin',
+      }).then(m => m.Admin)
   },
   {
     path: '',
