@@ -7,6 +7,12 @@ export class Notificacao {
   readonly mensagem = signal<string | null>(null)
   private timeoutId?: ReturnType<typeof setTimeout>
 
+  constructor() {
+    window.addEventListener('fm:notificacao', (evento) => {
+      this.sucesso((evento as CustomEvent<string>).detail)
+    })
+  }
+
   sucesso(texto: string): void {
     this.exibir(texto)
   }
